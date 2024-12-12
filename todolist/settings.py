@@ -57,17 +57,34 @@ ROOT_URLCONF = "todolist.urls"
 
 WSGI_APPLICATION = "todolist.wsgi.application"
 
+ENV_ENGINE = os.environ.get("ENV_ENGINE", "")
+ENV_NAME = os.environ.get("ENV_NAME", "")
+ENV_USER = os.environ.get("ENV_USER", "")
+ENV_PASSWORD = os.environ.get("ENV_PASSWORD", "")
+ENV_HOST = os.environ.get("ENV_HOST", "")
+ENV_PORT = os.environ.get("ENV_PORT", "")
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mysql.connector.django',
+#         'NAME': 'app_db',
+#         'USER': 'app_user',
+#         'PASSWORD': '1234',
+#         'HOST': 'mysql',  # You can use a different host if your MySQL server is on a remote machine.
+#         'PORT': '',  # Leave this empty to use the default MySQL port (3306).
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': 'app_db',
-        'USER': 'app_user',
-        'PASSWORD': '1234',
-        'HOST': 'mysql',  # You can use a different host if your MySQL server is on a remote machine.
-        'PORT': '',  # Leave this empty to use the default MySQL port (3306).
+        'ENGINE': ENV_ENGINE,  # Использование значения ENV_ENGINE
+        'NAME': ENV_NAME,      # Использование значения ENV_NAME
+        'USER': ENV_USER,      # Использование значения ENV_USER
+        'PASSWORD': ENV_PASSWORD,  # Использование значения ENV_PASSWORD
+        'HOST': ENV_HOST,      # Использование значения ENV_HOST
+        'PORT': ENV_PORT,      # Использование значения ENV_PORT
     }
 }
 

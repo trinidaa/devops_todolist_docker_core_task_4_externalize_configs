@@ -1,17 +1,35 @@
 # docker-compose.yml
-version: '3'
+volumes:
+  todoapp-db-data:
+    name: todoapp-db-data
 networks:
   todoapp-net:
+    driver: bridge
+    name: net1
 services:
   pythonapp:
+    command:
+      /bin/bash -c "pip install --upgrade pip &&
+      pip install -r requirements.txt &&
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8080"
+    container_name: todoapp-2.0.0
     image: todoapp:2.0.0
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        PYTHON_VERSION: 3.8
     ports:
       - "8080:8080"
     environment:
       - PYTHONUNBUFFERED=1
+      - ENV_ENGINE=mysql.connector.django
+      - ENV_NAME=app_db
+      - ENV_USER=app_user
+      - ENV_PASSWORD=0987654321aA
+      - ENV_HOST=mysql
+      - ENV_PORT=3306
     networks:
       - todoapp-net
     depends_on:
@@ -22,17 +40,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.mysql
-    container_name: my-sql
+    container_name: mysql
     ports:
       - "3306:3306"
     volumes:
       - todoapp-db-data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_ROOT_PASSWORD=99887766aA
       - MYSQL_DATABASE=app_db
       - MYSQL_USER=app_user
-      - MYSQL_PASSWORD=1234
+      - MYSQL_PASSWORD=0987654321aA
     networks:
       - todoapp-net
-volumes:
-  todoapp-db-data:

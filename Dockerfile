@@ -12,13 +12,11 @@ FROM python:${PYTHON_VERSION} as run
 WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1
+ENV ENV_ENGINE="default"
+ENV ENV_NAME="default"
+ENV ENV_USER="default"
+ENV ENV_PASSWORD="default"
+ENV ENV_HOST="default"
+ENV ENV_PORT="default"
 
 COPY --from=builder /app .
-
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
-
-EXPOSE 8080
-
-# Run database migrations and start the Django application
-ENTRYPOINT ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8080"]
