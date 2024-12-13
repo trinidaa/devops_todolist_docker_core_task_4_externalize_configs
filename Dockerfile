@@ -1,5 +1,5 @@
 # Stage 1: Build Stage
-ARG PYTHON_VERSION=3.8
+ARG PYTHON_VERSION="default"
 FROM python:${PYTHON_VERSION} as builder
 
 # Set the working directory
@@ -11,7 +11,7 @@ FROM python:${PYTHON_VERSION} as run
 
 WORKDIR /app
 
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED="default"
 ENV ENV_ENGINE="default"
 ENV ENV_NAME="default"
 ENV ENV_USER="default"
